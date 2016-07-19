@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 /**
  * Mail: xiao@terminus.io <br>
  * Date: 2016-07-15 11:05 AM  <br>
- * Author: xiao
+ * Author: xiao,
  */
 @ComponentScan
 @EnableAutoConfiguration
