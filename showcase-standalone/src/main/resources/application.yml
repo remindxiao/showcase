@@ -4,7 +4,7 @@ logging:
 
 #mybatis:
 #  mapperLocations: classpath*:mapper/*Mapper.xml
-#  typeAliasesPackage: io.terminus.parana.user.model,com.domain.model
+#  typeAliasesPackage: com.domain.model
 
 spring:
     datasource:
@@ -12,14 +12,6 @@ spring:
       url: jdbc:mysql://127.0.0.1:3306/UserLogin?useUnicode=true&characterEncoding=UTF8&autoReconnect=true
       username: root
       password:
-
-    freemarker:
-            cache: false
-            request-context-attribute: request
-
-redis:
-  host: 127.0.0.1
-  port: 8888
-  max-total: 10
-  max-idle: 2
-  test-on-borrow: true
+    redis:
+      host: 127.0.0.1
+      port: 6379

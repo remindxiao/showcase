@@ -17,4 +17,5 @@ public class SampleController {
     String home() {
         return "Hello World!";
     }
+
 }
