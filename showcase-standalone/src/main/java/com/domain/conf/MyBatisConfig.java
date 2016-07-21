@@ -35,7 +35,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
-import redis.clients.jedis.Jedis;
 
 import javax.sql.DataSource;
 
@@ -59,14 +58,6 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
         bean.setDataSource(dataSource);
         bean.setTypeAliasesPackage("com.domain.model    ");
 
-        //分页插件
-//        PageHelper pageHelper = new PageHelper();
-//        Properties properties = new Properties();
-//        properties.setProperty("reasonable", "true");
-//        properties.setProperty("supportMethodsArguments", "true");
-//        properties.setProperty("returnPageInfo", "check");
-//        properties.setProperty("params", "count=countSql");
-//        pageHelper.setProperties(properties);
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
