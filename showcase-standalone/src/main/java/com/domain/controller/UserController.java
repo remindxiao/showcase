@@ -24,14 +24,14 @@ public class UserController {
     @RequestMapping("/login")
     public String login(@RequestParam(value="name") String name, @RequestParam(value="password") String password){
         if(userService.login(name, password))
-            return "success"+redisService.get(name);
+            return "SUCCESS! & loginTimes : "+redisService.get(name);
         else
-            return "no.such.user";
+            return "aoh... something was wrong,check check ...";
     }
 
 
     @RequestMapping(value = "/api/redis/put")
-    public String redisPut(@RequestParam("name")String key, @RequestParam("password")String value){
+    public String redisPut(@RequestParam("name")String key, @RequestParam("logintimes")String value){
         return redisService.put(key, value);
     }
 
