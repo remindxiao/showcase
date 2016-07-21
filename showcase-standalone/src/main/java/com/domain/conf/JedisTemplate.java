@@ -28,22 +28,23 @@ public class JedisTemplate {
     /**
      * Execute with a call back action with result.
      */
-//    public <T> T execute(JedisAction<T> jedisAction) throws JedisException {
-//        return execute(jedisAction, 0);
-//    }
-
     public <T> T execute(JedisAction<T> jedisAction) throws JedisException {
-//        Jedis jedis = null;
-//        boolean broken = false;
+       return execute(jedisAction, 0);
+    }
+
+    public <T> T execute(JedisAction<T> jedisAction,int dbIndex) throws JedisException {
+        Jedis jedis = null;
+        boolean broken = false;
         try {
-            Jedis jedis = jedisPool.getResource();
+            jedis = jedisPool.getResource();
+            jedis.select(dbIndex);
             return jedisAction.action(jedis);
         } catch (JedisConnectionException e) {
             logger.error("Redis connection lost.", e);
-//            broken = true;
+            broken = true;
             throw e;
-//        } finally {
-//            closeResource(jedis, broken);
+        } finally {
+            closeResource(jedis, broken);
         }
     }
 
@@ -56,15 +57,17 @@ public class JedisTemplate {
 
     public void execute(JedisActionNoResult jedisAction, int dbIndex) throws JedisException {
         boolean broken = false;
+        Jedis jedis = null;
         try {
-            Jedis jedis = jedisPool.getResource();
+            jedis = jedisPool.getResource();
+            jedis.select(dbIndex);
             jedisAction.action(jedis);
         } catch (JedisConnectionException e) {
             logger.error("Redis connection lost.", e);
             broken = true;
             throw e;
-//        } finally {
-//            closeResource(jedis, broken);
+        } finally {
+            closeResource(jedis, broken);
         }
     }
 
@@ -72,15 +75,15 @@ public class JedisTemplate {
     /**
      * Return jedis connection to the pool, call different return methods depends on the conectionBroken status.
      */
-//    protected void closeResource(Jedis jedis, boolean connectionBroken) {
-//        if (jedis != null) {
-//            if (connectionBroken) {
-//                jedisPool.returnBrokenResource(jedis);
-//            } else {
-//                jedisPool.returnResource(jedis);
-//            }
-//        }
-//    }
+    protected void closeResource(Jedis jedis, boolean connectionBroken) {
+        if (jedis != null) {
+            if (connectionBroken) {
+                jedisPool.returnBrokenResource(jedis);
+            } else {
+                jedisPool.returnResource(jedis);
+            }
+        }
+    }
 
     /**
      * Get the internal Jedis.

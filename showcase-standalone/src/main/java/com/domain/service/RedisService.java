@@ -11,12 +11,12 @@ import redis.clients.jedis.Jedis;
  */
 
 @Service
-public class JedisService {
+public class RedisService {
 
     private final JedisTemplate jedisTemplate;
 
     @Autowired
-    public JedisService(JedisTemplate jedisTemplate) {
+    public RedisService(JedisTemplate jedisTemplate) {
         this.jedisTemplate = jedisTemplate;
     }
 

@@ -1,6 +1,6 @@
 package com.domain.controller;
 
-import com.domain.service.JedisService;
+import com.domain.service.RedisService;
 import com.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,30 +14,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
     private final UserService userService;
-    private final JedisService jedisService;
+    private final RedisService redisService;
 
     @Autowired
-    public UserController(UserService userService, JedisService jedisService) {
+    public UserController(UserService userService, RedisService redisService) {
         this.userService = userService;
-        this.jedisService = jedisService;
+        this.redisService = redisService;
     }
     @RequestMapping("/login")
     public String login(@RequestParam(value="name") String name, @RequestParam(value="password") String password){
         if(userService.login(name, password))
-            return "success";
+            return "success"+redisService.get(name);
         else
             return "no.such.user";
     }
 
 
     @RequestMapping(value = "/api/redis/put")
-    public String redisPut(@RequestParam("key")String key, @RequestParam("value")String value){
-        return jedisService.put(key, value);
+    public String redisPut(@RequestParam("name")String key, @RequestParam("password")String value){
+        return redisService.put(key, value);
     }
 
     @RequestMapping(value = "/api/redis/get")
     public String redisGet(){
-        return jedisService.get("wujianwei");
+        return redisService.get("lily");
     }
 
 }

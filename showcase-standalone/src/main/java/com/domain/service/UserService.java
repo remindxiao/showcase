@@ -1,7 +1,6 @@
 package com.domain.service;
 
 import com.domain.dao.UserDao;
-import com.domain.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +12,24 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserDao userDao;
+    private final RedisService redisService;
+    private Integer loginTimes=0;
     @Autowired
-    public UserService(UserDao userDao) {
+    public UserService(UserDao userDao, RedisService redisService) {
         this.userDao = userDao;
+        this.redisService = redisService;
     }
 
     public boolean login(String name,String password){
-        if(userDao.login(name,password).size()==1)
+        if(userDao.login(name,password).size()==1) {
+            if(redisService.get(name)!=null)
+                loginTimes = Integer.parseInt(redisService.get(name))+1;
+//            loginTimes=3;
+            else
+                loginTimes=1;
+            redisService.put(name,loginTimes+"");
             return true;
+        }
         else
             return false;
 
