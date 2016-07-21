@@ -1,2 +1,17 @@
-spring.profiles.active: dev
-server.port : 8080
+logging:
+    level:
+        com: DEBUG
+
+#mybatis:
+#  mapperLocations: classpath*:mapper/*Mapper.xml
+#  typeAliasesPackage: com.domain.model
+
+spring:
+    datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/UserLogin?useUnicode=true&characterEncoding=UTF8&autoReconnect=true&useSSL=false
+      username: root
+      password:
+    redis:
+      host: 127.0.0.1
+      port: 6379
